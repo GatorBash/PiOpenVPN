@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#make sure user is logged in as root
+echo 'are you logged in as root?'
+read a
+if [ $a == n ]
+then
+echo "log into root using \"sudo -i\""
+else
+
+#updating before install
+sudo apt update -y 
+wait
+
+#install package
+sudo apt install openvpn -y
+wait
+
+#create openvpn keys
+cd /etc/openvpn
