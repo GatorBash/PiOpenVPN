@@ -1,12 +1,11 @@
 #!/bin/bash
 
 #make sure user is logged in as root
-echo 'are you logged in as root?'
-read a
-if [ $a == n ]
+if [[ $EUID -ne 0 ]]
 then
-echo "log into root using \"sudo -i\""
-else
+   echo "This script must be run as root; run \"sudo -i\" this will log you into root." 
+   exit 1
+fi
 
 #updating before install
 sudo apt update -y 
