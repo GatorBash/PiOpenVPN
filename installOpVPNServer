@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#make sure user is logged in as root
+if [[ $EUID -ne 0 ]]
+then
+   echo "This script must be run as root; run \"sudo -i\" this will log you into root." 
+   exit 1
+fi
+#sever config
+#updating before install
+sudo apt update -y 
+wait
+
+#install package
+apt install ca-certificates
+wait
+apt install wget
+wait
+apt install net-tools
+wait
+apt install gnupg
+wg -q0 - https://as-repository.openvpn.net/as-repo-public.gpg | apt-key add -
+sleep 1
+echo "deb http://as-repository.openvpn.net/as/debian focal main">/etc/apt/sources.list.d/openvpn-as-repo.list
+sleep 1
+apt update
+wait
+apt install openvpn-as
+#set up openvpn user on server
+passwd openvpn
+
