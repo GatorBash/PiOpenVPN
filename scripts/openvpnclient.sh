@@ -19,21 +19,37 @@ apt update -y
 apt install openvpn
 
 #get user certs and password file
-echo "what is the absolute path to your openvpn cert?"
-read -r cert
-echo "do you have a password file set up?"
-read -r yn
-if [[ $yn == y ]]
+echo "Is your username in your client config? y/n"
+read -r conf
+if [[ $config == n ]]
 then
-   echo "what is the absolute path to your password file?"
-   read -r pass
-else
-   echo "what is your password?"
-   read -r word
-   touch word.txt
-   echo "$word" >> word.txt
-   pass=word.txt
-fi
+	echo "what is the absolute path to your openvpn cert?"
+	read -r cert
+	echo "What is your username?"
+	read -r user
+	echo "What is your password?"
+	read -r pass
+	touch /etc/openvpn/creds
+	cred=/etc/openvpn/creds
+	echo "$user" > $cred
+	echo "$pass" >> $cred
+elif [[ $config == y ]]
+then
+	echo "what is the absolute path to your openvpn cert?"
+	read -r cert
+	echo "do you have a password file set up?"
+	read -r yn
+	if [[ $yn == y ]]
+	then
+   		echo "what is the absolute path to your password file?"
+   		read -r pass
+	else
+   		echo "what is your password?"
+   		read -r word
+   		touch word.txt
+   		echo "$word" >> word.txt
+   		pass=word.txt
+	fi
 echo "Pass and cert set"   
 
 #adding proxy configs
