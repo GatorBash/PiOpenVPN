@@ -46,10 +46,13 @@ then
 	else
    		echo "what is your password?"
    		read -r word
-   		touch word.txt
-   		echo "$word" >> word.txt
-   		pass=word.txt
+   		touch /etc/openvpn/creds
+   		echo "$word" >> /etc/openvpn/creds
+   		pass=/etc/openvpn/creds
 	fi
+else
+	exit 1
+fi
 echo "Pass and cert set"   
 
 #adding proxy configs
